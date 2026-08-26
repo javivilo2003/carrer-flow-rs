@@ -162,7 +162,7 @@ Success response body:
       "companyName": "NVIDIA",
       "companyAddress": "Santa Clara, CA",
       "bio": "Computer Hardware Manufacturing",
-      "website": "https://www.nvidia.com/en-us/"
+      "websiteUrl": "https://www.nvidia.com/en-us/"
     },
     "position": "Software Engineer, Infrastructure - DGX Cloud",
     "jobType": "Full-time",
@@ -356,7 +356,7 @@ Success response body:
       "id": "3fb07ed5-d376-424d-8d38-90dcf359bd7c",
       "companyName": "NVIDIA",
       "bio": "Computer Hardware Manufacturing",
-      "website": "https://www.nvidia.com/en-us/",
+      "websiteUrl": "https://www.nvidia.com/en-us/",
       "createdAt": "2026-08-20T10:00:00Z"
     }
   ]
@@ -382,7 +382,7 @@ Success response body:
     "companyName": "NVIDIA",
     "companyAddress": "Santa Clara, CA",
     "bio": "Computer Hardware Manufacturing",
-    "website": "https://www.nvidia.com/en-us/",
+    "websiteUrl": "https://www.nvidia.com/en-us/",
     "createdAt": "2026-08-20T10:00:00Z"
   }
 }
@@ -405,7 +405,7 @@ Request body:
   "companyName": "NVIDIA",
   "companyAddress": "Santa Clara, CA",
   "bio": "Computer Hardware Manufacturing",
-  "website": "https://www.nvidia.com/en-us/"
+  "websiteUrl": "https://www.nvidia.com/en-us/"
 }
 ```
 
@@ -422,7 +422,7 @@ Success response body:
     "companyName": "NVIDIA",
     "companyAddress": "Santa Clara, CA",
     "bio": "Computer Hardware Manufacturing",
-    "website": "https://www.nvidia.com/en-us/",
+    "websiteUrl": "https://www.nvidia.com/en-us/",
     "createdAt": "2026-08-20T10:00:00Z"
   }
 }
@@ -446,7 +446,7 @@ Request body:
   "companyName": "NVIDIA",
   "companyAddress": "Santa Clara, CA",
   "bio": "Computer Hardware Manufacturing",
-  "website": "https://www.nvidia.com/en-us/"
+  "websiteUrl": "https://www.nvidia.com/en-us/"
 }
 ```
 
@@ -463,7 +463,7 @@ Success response body:
     "companyName": "NVIDIA",
     "companyAddress": "Santa Clara, CA",
     "bio": "Computer Hardware Manufacturing",
-    "website": "https://www.nvidia.com/en-us/",
+    "websiteUrl": "https://www.nvidia.com/en-us/",
     "createdAt": "2026-08-20T10:00:00Z"
   }
 }
@@ -474,9 +474,9 @@ Error cases:
 | Status code | Error code | Response body |
 | ----------- | ---------- | ------------- |
 | 400 | `INVALID_REQUEST` | `{"error":{"code":"INVALID_REQUEST","message":"Company id must be a valid UUID."}}` |
-| 400 | `VALIDATION_ERROR` | `{"error":{"code":"VALIDATION_ERROR","message":"One or more fields are invalid.","details":[{"field":"website","message":"website must be a valid URL."}]}}` |
+| 400 | `VALIDATION_ERROR` | `{"error":{"code":"VALIDATION_ERROR","message":"One or more fields are invalid.","details":[{"field":"websiteUrl","message":"website must be a valid URL."}]}}` |
 | 404 | `NOT_FOUND` | `{"error":{"code":"NOT_FOUND","message":"Company was not found."}}` |
-| 409 | `CONFLICT` | `{"error":{"code":"CONFLICT","message":"Company website already exists.","details":[{"field":"website","message":"website must be unique."}]}}` |
+| 409 | `CONFLICT` | `{"error":{"code":"CONFLICT","message":"Company website already exists.","details":[{"field":"websiteUrl","message":"website must be unique."}]}}` |
 | 500 | `INTERNAL_ERROR` | `{"error":{"code":"INTERNAL_ERROR","message":"Unable to update company."}}` |
 
 ### `DELETE /api/companies/{id}`

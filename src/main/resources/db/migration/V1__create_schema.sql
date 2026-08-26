@@ -14,7 +14,7 @@ CREATE TABLE companies(
     company_name VARCHAR(80) UNIQUE NOT NULL,
     company_address TEXT,
     bio TEXT,
-    website TEXT UNIQUE,
+    website_url TEXT UNIQUE,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -114,7 +114,7 @@ INSERT INTO companies(
 	company_name, 
 	company_address,
 	bio, 
-	website
+	website_url
 )
 VALUES (
 	'NVIDIA', 
