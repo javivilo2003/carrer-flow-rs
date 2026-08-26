@@ -14,7 +14,7 @@ CREATE TABLE companies(
     company_name VARCHAR(80) UNIQUE NOT NULL,
     company_address TEXT,
     bio TEXT,
-    website_url TEXT UNIQUE,
+    website TEXT UNIQUE,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -114,7 +114,7 @@ INSERT INTO companies(
 	company_name, 
 	company_address,
 	bio, 
-	website_url
+	website
 )
 VALUES (
 	'NVIDIA', 
@@ -202,4 +202,3 @@ values (
 	'Technical Interview Appointment',
 	'2026-08-26'
 );
-
