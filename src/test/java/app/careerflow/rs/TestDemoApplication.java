@@ -2,12 +2,11 @@ package app.careerflow.rs;
 
 import org.springframework.boot.SpringApplication;
 
-import app.careerflow.rs.DemoApplication;
 
 public class TestDemoApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.from(DemoApplication::main).with(TestcontainersConfiguration.class).run(args);
+		SpringApplication.from(CareerFlowApi::main).with(TestcontainersConfiguration.class).run(args);
 	}
 
 }

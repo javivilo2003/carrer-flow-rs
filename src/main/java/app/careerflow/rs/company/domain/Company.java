@@ -33,7 +33,6 @@ public class Company {
     @NotNull
     private String companyName;
 
-
     private String companyAddress;
 
     private String bio;
