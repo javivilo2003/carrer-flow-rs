@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import app.careerflow.rs.interview.domain.Interview;
 import app.careerflow.rs.interview.repository.InterviewRepository;
