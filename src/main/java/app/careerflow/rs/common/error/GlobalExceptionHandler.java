@@ -1,6 +1,5 @@
 package app.careerflow.rs.common.error;
 
-import app.careerflow.rs.interview.repository.InterviewRepository;
 import java.time.Instant;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -16,12 +15,6 @@ import jakarta.servlet.http.HttpServletRequest;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
-    
-    private final InterviewRepository interviewRepository;
-
-    GlobalExceptionHandler(InterviewRepository interviewRepository) {
-        this.interviewRepository = interviewRepository;
-    }
 
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<ApiError> handleNotFound(ResourceNotFoundException ex, HttpServletRequest request){
