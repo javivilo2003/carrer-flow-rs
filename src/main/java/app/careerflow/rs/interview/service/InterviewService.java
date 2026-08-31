@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
+import app.careerflow.rs.common.error.ResourceNotFoundException;
 import app.careerflow.rs.interview.domain.Interview;
 import app.careerflow.rs.interview.repository.InterviewRepository;
 
@@ -23,7 +24,7 @@ public class InterviewService {
 
     public Interview getInterviewById(UUID id) throws Exception{
         return repository.findById(id)
-            .orElseThrow(() -> new Exception(id + " not found"));
+            .orElseThrow(() -> new ResourceNotFoundException(id + " not found"));
     }
 
     public void addNewInterview(Interview interview){

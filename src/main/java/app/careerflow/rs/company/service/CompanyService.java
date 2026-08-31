@@ -5,7 +5,7 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
-
+import app.careerflow.rs.common.error.ResourceNotFoundException;
 import app.careerflow.rs.company.domain.Company;
 import app.careerflow.rs.company.repository.CompanyRepository;
 
@@ -23,7 +23,7 @@ public class CompanyService {
     }
 
     public Company getCompanyById(UUID id) throws Exception{
-        return repository.findById(id).orElseThrow(() -> new Exception(id + " not found."));
+        return repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id + " not found."));
     }
 
     public void addNewComapny(Company company ){

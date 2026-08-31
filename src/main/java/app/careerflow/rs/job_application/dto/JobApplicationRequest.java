@@ -7,15 +7,15 @@ import app.careerflow.rs.job_application.domain.ApplicationStatus;
 import jakarta.validation.constraints.NotNull;
 
 public record JobApplicationRequest(
-    @NotNull UUID userId,
-    @NotNull UUID companyId,
-    @NotNull String position,
-    @NotNull String jobType,
+    @NotNull(message = "User ID is required") UUID userId,
+    @NotNull(message = "Company ID is required") UUID companyId,
+    @NotNull(message = "Position is required") String position,
+    @NotNull(message = "Job Type is required") String jobType,
     String description,
     Integer salary,
-    @NotNull ApplicationStatus status,
+    @NotNull(message = "Application status is required") ApplicationStatus status,
     LocalDate appliedAt,
-    @NotNull String source,
+    @NotNull(message = "Source is required") String source,
     String postingLink
 ) {
     

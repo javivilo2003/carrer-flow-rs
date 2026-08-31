@@ -6,6 +6,7 @@ import java.util.stream.StreamSupport;
 
 import org.springframework.stereotype.Service;
 
+import app.careerflow.rs.common.error.ResourceNotFoundException;
 import app.careerflow.rs.company.domain.Company;
 import app.careerflow.rs.company.repository.CompanyRepository;
 import app.careerflow.rs.job_application.domain.JobApplication;
@@ -36,12 +37,12 @@ public class JobApplicationService {
     public JobApplicationDTO getJobApplicationById(UUID id) throws Exception{
         return repository.findById(id)
             .map(mapper)    
-            .orElseThrow(() -> new Exception(id + " not found."));
+            .orElseThrow(() -> new ResourceNotFoundException(id + " not found."));
     }
 
     public void addNewJobApplication(JobApplicationRequest request) throws Exception{
         Company company = companyRepository.findById(request.companyId())
-            .orElseThrow(() -> new Exception(request.companyId() + " not found."));
+            .orElseThrow(() -> new ResourceNotFoundException(request.companyId() + " not found."));
 
         JobApplication application = mapper.toEntity(request, company);
 
