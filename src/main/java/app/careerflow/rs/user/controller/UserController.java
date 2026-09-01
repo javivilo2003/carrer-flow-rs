@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import app.careerflow.rs.common.error.ResourceNotFoundException;
-import app.careerflow.rs.user.domain.User;
 import app.careerflow.rs.user.dto.UserDTO;
 import app.careerflow.rs.user.dto.UserRequest;
 import app.careerflow.rs.user.service.UserService;
