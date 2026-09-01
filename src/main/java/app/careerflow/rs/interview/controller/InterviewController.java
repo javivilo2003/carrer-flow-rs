@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import app.careerflow.rs.common.error.ResourceNotFoundException;
 import app.careerflow.rs.interview.dto.InterviewDTO;
 import app.careerflow.rs.interview.dto.InterviewRequest;
 import app.careerflow.rs.interview.service.InterviewService;
@@ -35,7 +36,7 @@ public class InterviewController {
     }
 
     @PostMapping
-    public void addNewInterview(@RequestBody InterviewRequest interview){
+    public void addNewInterview(@RequestBody InterviewRequest interview) throws ResourceNotFoundException{
         service.addNewInterview(interview);
     }
 }

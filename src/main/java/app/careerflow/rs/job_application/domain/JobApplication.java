@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 import app.careerflow.rs.company.domain.Company;
+import app.careerflow.rs.user.domain.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -37,9 +38,11 @@ public class JobApplication {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "user_id", nullable = false)
     @NotNull
-    private UUID userId;
+    private User user;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "company_id", nullable = false)

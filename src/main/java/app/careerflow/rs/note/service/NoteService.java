@@ -1,4 +1,4 @@
-package app.careerflow.rs.interview.service;
+package app.careerflow.rs.note.service;
 
 import java.util.List;
 import java.util.UUID;
@@ -7,45 +7,45 @@ import java.util.stream.StreamSupport;
 import org.springframework.stereotype.Service;
 
 import app.careerflow.rs.common.error.ResourceNotFoundException;
-import app.careerflow.rs.interview.domain.Interview;
-import app.careerflow.rs.interview.dto.InterviewDTO;
-import app.careerflow.rs.interview.dto.InterviewRequest;
-import app.careerflow.rs.interview.mapper.InterviewMapper;
-import app.careerflow.rs.interview.repository.InterviewRepository;
 import app.careerflow.rs.job_application.domain.JobApplication;
 import app.careerflow.rs.job_application.repository.JobApplicationRepository;
+import app.careerflow.rs.note.domain.Note;
+import app.careerflow.rs.note.dto.NoteDTO;
+import app.careerflow.rs.note.dto.NoteRequest;
+import app.careerflow.rs.note.mapper.NoteMapper;
+import app.careerflow.rs.note.repository.NoteRepository;
 
 @Service
-public class InterviewService {
+public class NoteService {
     
-    private final InterviewRepository repository;
+    private final NoteRepository repository;
     private final JobApplicationRepository jobApplicationRepository;
-    private final InterviewMapper mapper;
+    private final NoteMapper mapper;
     
-
-    public InterviewService(InterviewRepository repository,JobApplicationRepository jobApplicationRepository, InterviewMapper interviewMapper) {
+    public NoteService(NoteRepository repository, JobApplicationRepository jobApplicationRepository, NoteMapper mapper) {
         this.repository = repository;
         this.jobApplicationRepository = jobApplicationRepository;
-        this.mapper = interviewMapper;
+        this.mapper = mapper;
     }
 
-    public List<InterviewDTO> getAllInterviews(){
+    public List<NoteDTO> getAllNotes(){
         return StreamSupport.stream(repository.findAll().spliterator(), false)
             .map(mapper)
             .toList();
     }
 
-    public InterviewDTO getInterviewById(UUID id) throws Exception{
+    public NoteDTO getNoteById(UUID id) throws ResourceNotFoundException{
         return repository.findById(id)
             .map(mapper)
             .orElseThrow(() -> new ResourceNotFoundException(id + " not found"));
     }
 
-    public void addNewInterview(InterviewRequest request) throws ResourceNotFoundException{
+    public void addNewNote(NoteRequest request) throws ResourceNotFoundException{
         JobApplication application = jobApplicationRepository.findById(request.jobApplicationId())
             .orElseThrow(() -> new ResourceNotFoundException(request.jobApplicationId() + " not found."));
 
-        Interview interview = mapper.toEntityInterview(request, application);
-        repository.save(interview);
+        Note note = mapper.toEntityNote(request, application);
+        repository.save(note);
     }
+    
 }

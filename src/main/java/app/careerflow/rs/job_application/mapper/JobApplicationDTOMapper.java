@@ -8,6 +8,7 @@ import app.careerflow.rs.company.domain.Company;
 import app.careerflow.rs.job_application.domain.JobApplication;
 import app.careerflow.rs.job_application.dto.JobApplicationDTO;
 import app.careerflow.rs.job_application.dto.JobApplicationRequest;
+import app.careerflow.rs.user.domain.User;
 
 @Service
 public class JobApplicationDTOMapper implements Function<JobApplication, JobApplicationDTO>{
@@ -16,7 +17,7 @@ public class JobApplicationDTOMapper implements Function<JobApplication, JobAppl
     public JobApplicationDTO apply(JobApplication t) {
         return new JobApplicationDTO(
             t.getId(),
-            t.getUserId(),
+            t.getUser().getId(),
             t.getCompany().getId(),
             t.getPosition(),
             t.getJobType(),
@@ -29,9 +30,9 @@ public class JobApplicationDTOMapper implements Function<JobApplication, JobAppl
         );
     }
 
-    public JobApplication toEntity(JobApplicationRequest request, Company company) {
+    public JobApplication toEntity(JobApplicationRequest request, Company company, User user) {
     return JobApplication.builder()
-        .userId(request.userId())
+        .user(user)
         .company(company)
         .position(request.position())
         .jobType(request.jobType())

@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 import app.careerflow.rs.interview.domain.Interview;
 import app.careerflow.rs.interview.dto.InterviewDTO;
 import app.careerflow.rs.interview.dto.InterviewRequest;
+import app.careerflow.rs.job_application.domain.JobApplication;
+
 
 @Service
 public class InterviewMapper implements Function<Interview, InterviewDTO>{
@@ -15,7 +17,7 @@ public class InterviewMapper implements Function<Interview, InterviewDTO>{
     public InterviewDTO apply(Interview t) {
         return new InterviewDTO(
             t.getId(),
-            t.getJobApplicationId(),
+            t.getJobApplication().getId(),
             t.getStage(),
             t.getStatus(),
             t.getInterviewDate(),
@@ -23,9 +25,9 @@ public class InterviewMapper implements Function<Interview, InterviewDTO>{
         );
     }
     
-    public Interview toEntityInterview(InterviewRequest request){
+    public Interview toEntityInterview(InterviewRequest request, JobApplication application){
         return Interview.builder()
-            .jobApplicationId(request.jobApplicationId())
+            .jobApplication(application)
             .stage(request.stage())
             .status(request.status())
             .interviewDate(request.interviewDate())

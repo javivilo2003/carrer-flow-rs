@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import app.careerflow.rs.job_application.domain.ApplicationStatus;
 
+
 public record JobApplicationDTO(
     UUID id,
     UUID userId,

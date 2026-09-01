@@ -1,15 +1,12 @@
-package app.careerflow.rs.interview.domain;
+package app.careerflow.rs.followup.domain;
 
 import java.time.LocalDate;
 import java.util.UUID;
 
-import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.type.SqlTypes;
+import org.hibernate.annotations.ColumnDefault;
 
 import app.careerflow.rs.job_application.domain.JobApplication;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -24,33 +21,32 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "interviews")
-public class Interview {
+@Table(name = "followups")
+public class FollowUp {
     
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
+    @NotNull
     @ManyToOne(optional = false)
     @JoinColumn(name = "job_application_id", nullable = false)
-    @NotNull
-    private JobApplication jobApplication;
+    private JobApplication application;
 
     @NotNull
-    private String stage;
+    private String title;
 
-    @Enumerated(EnumType.STRING)
-    @JdbcTypeCode(SqlTypes.NAMED_ENUM)
     @NotNull
-    private InterviewStatus status;
+    private LocalDate dueDate;
 
-    private LocalDate interviewDate;
-
-    private String notes;
+    @NotNull
+    @ColumnDefault("false")
+    private boolean completed;
 }

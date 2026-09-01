@@ -14,6 +14,8 @@ import app.careerflow.rs.job_application.dto.JobApplicationDTO;
 import app.careerflow.rs.job_application.dto.JobApplicationRequest;
 import app.careerflow.rs.job_application.mapper.JobApplicationDTOMapper;
 import app.careerflow.rs.job_application.repository.JobApplicationRepository;
+import app.careerflow.rs.user.domain.User;
+import app.careerflow.rs.user.repository.UserRepository;
 
 @Service
 public class JobApplicationService {
@@ -21,11 +23,13 @@ public class JobApplicationService {
     private final JobApplicationRepository repository;
     private final JobApplicationDTOMapper mapper;
     private final CompanyRepository companyRepository;
+    private final UserRepository userRepository;
 
-    public JobApplicationService(JobApplicationRepository repository, JobApplicationDTOMapper mapper, CompanyRepository companyRepository) {
+    public JobApplicationService(JobApplicationRepository repository, JobApplicationDTOMapper mapper, CompanyRepository companyRepository, UserRepository userRepository) {
         this.repository = repository;
         this.mapper = mapper;
         this.companyRepository = companyRepository;
+        this.userRepository = userRepository;
     }
 
     public List<JobApplicationDTO> getAllJobApplications(){
@@ -44,7 +48,10 @@ public class JobApplicationService {
         Company company = companyRepository.findById(request.companyId())
             .orElseThrow(() -> new ResourceNotFoundException(request.companyId() + " not found."));
 
-        JobApplication application = mapper.toEntity(request, company);
+        User user = userRepository.findById(request.userid())
+            .orElseThrow(() -> new ResourceNotFoundException(request.userid() + " not found."));
+
+        JobApplication application = mapper.toEntity(request, company, user);
 
         repository.save(application);
     }

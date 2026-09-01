@@ -10,6 +10,7 @@ import app.careerflow.rs.job_application.domain.ApplicationStatus;
 import app.careerflow.rs.job_application.domain.JobApplication;
 import app.careerflow.rs.job_application.dto.JobApplicationDTO;
 import app.careerflow.rs.job_application.dto.JobApplicationRequest;
+import app.careerflow.rs.user.domain.User;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -28,10 +29,15 @@ class JobApplicationDTOMapperTest {
             .id(companyId)
             .companyName("OpenAI")
             .build();
+        
+        User user = User.builder()
+            .id(userId)
+            .username("testing")
+            .build();
 
         JobApplication application = JobApplication.builder()
             .id(applicationId)
-            .userId(userId)
+            .user(user)
             .company(company)
             .position("Backend Engineer")
             .jobType("Full-time")
@@ -69,6 +75,11 @@ class JobApplicationDTOMapperTest {
             .companyName("OpenAI")
             .build();
 
+        User user = User.builder()
+            .id(userId)
+            .username("testing")
+            .build();
+
         JobApplicationRequest request = new JobApplicationRequest(
             userId,
             companyId,
@@ -82,10 +93,10 @@ class JobApplicationDTOMapperTest {
             "https://example.com/jobs/123"
         );
 
-        JobApplication entity = mapper.toEntity(request, company);
+        JobApplication entity = mapper.toEntity(request, company, user);
 
         assertThat(entity.getId()).isNull();
-        assertThat(entity.getUserId()).isEqualTo(userId);
+        assertThat(entity.getUser()).isEqualTo(user);
         assertThat(entity.getCompany()).isSameAs(company);
         assertThat(entity.getPosition()).isEqualTo("Backend Engineer");
         assertThat(entity.getJobType()).isEqualTo("Full-time");
