@@ -6,10 +6,12 @@ import java.util.UUID;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import app.careerflow.rs.interview.domain.Interview;
+import app.careerflow.rs.interview.dto.InterviewDTO;
+import app.careerflow.rs.interview.dto.InterviewRequest;
 import app.careerflow.rs.interview.service.InterviewService;
 
 @RestController
@@ -23,17 +25,17 @@ public class InterviewController {
     }
 
     @GetMapping()
-    public List<Interview> getAllInterviews(){
+    public List<InterviewDTO> getAllInterviews(){
         return service.getAllInterviews();
     }
 
     @GetMapping("{id}")
-    public Interview getInterviewById(@PathVariable UUID id) throws Exception{
+    public InterviewDTO getInterviewById(@PathVariable UUID id) throws Exception{
         return service.getInterviewById(id);
     }
 
     @PostMapping
-    public void addNewInterview(Interview interview){
+    public void addNewInterview(@RequestBody InterviewRequest interview){
         service.addNewInterview(interview);
     }
 }
