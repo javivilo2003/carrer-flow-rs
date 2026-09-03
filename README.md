@@ -41,16 +41,16 @@ cd CareerFlow
 Create the local PostgreSQL database expected by `src/main/resources/application.properties`:
 
 ```sql
-CREATE USER careerflowtest WITH PASSWORD '1234';
-CREATE DATABASE careerflowtest OWNER careerflowtest;
+CREATE USER careerflowtest WITH PASSWORD 'DB_PASSWORD';
+CREATE DATABASE careerflowtest OWNER DB_USERNAME;
 ```
 
 The default application configuration uses:
 
 ```properties
-spring.datasource.url=jdbc:postgresql://localhost:5432/careerflowtest
-spring.datasource.username=careerflowtest
-spring.datasource.password=1234
+spring.datasource.url=jdbc:postgresql://localhost:5432/DB_NAME
+spring.datasource.username=DB_USERNAME
+spring.datasource.password=DB_PASSWORD
 ```
 
 Start the API:
