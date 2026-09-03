@@ -1,2 +1,265 @@
-# carrer-flow-rs
-Backend for CarrerFlow. This app helps user track his job search and applied jobs.
+# CareerFlow API
+
+CareerFlow API is a Spring Boot backend for tracking a job search. It stores users, companies, job applications, contacts, interviews, notes, and follow-up tasks so an application pipeline can be managed from one place.
+
+## Features
+
+- Track job applications with company, role, source, salary, status, and application date.
+- Store company profiles and related contacts.
+- Record interview stages, dates, statuses, and notes.
+- Add application notes and follow-up tasks.
+- Validate incoming requests and return structured API errors.
+- Manage the PostgreSQL schema with Flyway migrations.
+- Expose actuator health checks, including a custom database health indicator.
+
+## Tech Stack
+
+- Java 21
+- Spring Boot 4
+- Spring Web MVC
+- Spring Data JPA
+- PostgreSQL
+- Flyway
+- Maven Wrapper
+- JUnit and Testcontainers
+
+## Requirements
+
+- JDK 21
+- PostgreSQL running locally
+- Docker, if you want to run the Testcontainers-backed tests
+
+## Getting Started
+
+Clone the repository and move into the project directory:
+
+```bash
+git clone <repository-url>
+cd CareerFlow
+```
+
+Create the local PostgreSQL database expected by `src/main/resources/application.properties`:
+
+```sql
+CREATE USER careerflowtest WITH PASSWORD '1234';
+CREATE DATABASE careerflowtest OWNER careerflowtest;
+```
+
+The default application configuration uses:
+
+```properties
+spring.datasource.url=jdbc:postgresql://localhost:5432/careerflowtest
+spring.datasource.username=careerflowtest
+spring.datasource.password=1234
+```
+
+Start the API:
+
+```bash
+./mvnw spring-boot:run
+```
+
+The API runs on:
+
+```text
+http://localhost:8080
+```
+
+Flyway runs automatically on startup and applies migrations from:
+
+```text
+src/main/resources/db/migration
+```
+
+## Useful Commands
+
+Run the test suite:
+
+```bash
+./mvnw test
+```
+
+Build the project:
+
+```bash
+./mvnw clean package
+```
+
+Run the packaged application:
+
+```bash
+java -jar target/rs-0.0.1-SNAPSHOT.jar
+```
+
+Check application health:
+
+```bash
+curl http://localhost:8080/actuator/health
+```
+
+## API Overview
+
+Base URL:
+
+```text
+http://localhost:8080/api
+```
+
+| Resource | Method | Endpoint | Description |
+| --- | --- | --- | --- |
+| Users | `GET` | `/users` | List all users. |
+| Users | `GET` | `/users/{id}` | Get one user by UUID. |
+| Users | `POST` | `/users` | Create a user. |
+| Companies | `GET` | `/companies` | List all companies. |
+| Companies | `GET` | `/companies/{id}` | Get one company by UUID. |
+| Companies | `POST` | `/companies` | Create a company. |
+| Applications | `GET` | `/applications` | List all job applications. |
+| Applications | `GET` | `/applications/{id}` | Get one job application by UUID. |
+| Applications | `POST` | `/applications` | Create a job application. |
+| Contacts | `GET` | `/contacts` | List all contacts. |
+| Contacts | `GET` | `/contacts/{id}` | Get one contact by UUID. |
+| Contacts | `POST` | `/contacts` | Create a contact. |
+| Interviews | `GET` | `/interviews` | List all interviews. |
+| Interviews | `GET` | `/interviews/{id}` | Get one interview by UUID. |
+| Interviews | `POST` | `/interviews` | Create an interview. |
+| Notes | `GET` | `/notes` | List all notes. |
+| Notes | `GET` | `/notes/{id}` | Get one note by UUID. |
+| Notes | `POST` | `/notes` | Create a note. |
+| Follow-ups | `GET` | `/followups` | List all follow-up tasks. |
+| Follow-ups | `GET` | `/followups/{id}` | Get one follow-up task by UUID. |
+| Follow-ups | `POST` | `/followups` | Create a follow-up task. |
+
+Most `POST` endpoints accept JSON request bodies. The current controllers return successful create responses with empty bodies.
+
+## Example Requests
+
+Create a user:
+
+```bash
+curl -X POST http://localhost:8080/api/users \
+  -H "Content-Type: application/json" \
+  -d '{
+    "username": "alex",
+    "dob": "2000-01-15",
+    "cv": "/path/to/cv.pdf"
+  }'
+```
+
+Create a job application using existing user and company IDs:
+
+```bash
+USER_ID="<uuid-from-get-users>"
+COMPANY_ID="<uuid-from-get-companies>"
+
+curl -X POST http://localhost:8080/api/applications \
+  -H "Content-Type: application/json" \
+  -d "{
+    \"userId\": \"$USER_ID\",
+    \"companyId\": \"$COMPANY_ID\",
+    \"position\": \"Backend Developer\",
+    \"jobType\": \"Full-time\",
+    \"description\": \"Spring Boot API role\",
+    \"salary\": 45000,
+    \"status\": \"APPLIED\",
+    \"appliedAt\": \"2026-08-20\",
+    \"source\": \"LinkedIn\",
+    \"postingLink\": \"https://example.com/jobs/backend-developer\"
+  }"
+```
+
+List applications:
+
+```bash
+curl http://localhost:8080/api/applications
+```
+
+## Status Values
+
+Job applications support these statuses:
+
+```text
+SAVED
+PREPARING
+APPLIED
+INTERVIEWING
+OFFER
+REJECTED
+WITHDRAWN
+```
+
+Interviews support these statuses:
+
+```text
+SCHEDULED
+COMPLETED
+CANCELLED
+RESCHEDULED
+PASSED
+FAILED
+WAITING_FEEDBACK
+```
+
+## Error Responses
+
+Errors use a consistent JSON wrapper:
+
+```json
+{
+  "error": {
+    "code": "VALIDATION_ERROR",
+    "message": "One or more fields are invalid.",
+    "details": [
+      {
+        "field": "username",
+        "message": "Username not found"
+      }
+    ]
+  }
+}
+```
+
+Common error codes include:
+
+| Code | Meaning |
+| --- | --- |
+| `VALIDATION_ERROR` | A request body failed validation. |
+| `INVALID_REQUEST` | A request parameter or JSON body could not be parsed. |
+| `NOT_FOUND` | A requested resource does not exist. |
+| `CONFLICT` | A unique value already exists. |
+| `INTERNAL_ERROR` | An unexpected server error occurred. |
+
+## Project Structure
+
+```text
+src/main/java/app/careerflow/rs
+|-- common          # Shared errors and exception handling
+|-- company         # Company domain, repository, service, controller
+|-- contact         # Contact domain, repository, service, controller
+|-- followup        # Follow-up task domain, repository, service, controller
+|-- health          # Actuator database health check
+|-- interview       # Interview domain, repository, service, controller
+|-- job_application # Job application domain, repository, service, controller
+|-- note            # Note domain, repository, service, controller
+`-- user            # User domain, repository, service, controller
+```
+
+## Database
+
+The schema includes these main tables:
+
+- `users`
+- `companies`
+- `job_applications`
+- `contacts`
+- `interviews`
+- `notes`
+- `followups`
+
+Flyway migration `V1__create_schema.sql` creates the initial schema and seed data. Later migrations update the schema as the model evolves.
+
+## Development Notes
+
+- API IDs are UUIDs.
+- Dates use ISO format, for example `2026-08-20`.
+- JPA schema generation is set to `validate`; schema changes should be made through Flyway migrations.
+- `api-plan.md` contains broader API planning notes beyond the endpoints currently implemented.
