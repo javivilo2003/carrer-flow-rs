@@ -1,15 +1,14 @@
 package app.careerflow.rs.common.error;
 
-import java.time.Instant;
-import java.util.Map;
 
+
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public record ApiError(
-    Instant timeStamp,
-    int status,
-    String error,
+    ErrorCode code, 
     String message,
-    String path,
-    Map<String, String> fieldErrors
-) {
-    
-}
+    List<ApiErrorDetails> details
+) {}

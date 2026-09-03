@@ -6,7 +6,7 @@ import java.util.stream.StreamSupport;
 
 import org.springframework.stereotype.Service;
 
-import app.careerflow.rs.common.error.ResourceNotFoundException;
+import app.careerflow.rs.common.exception.ResourceNotFoundException;
 import app.careerflow.rs.interview.domain.Interview;
 import app.careerflow.rs.interview.dto.InterviewDTO;
 import app.careerflow.rs.interview.dto.InterviewRequest;

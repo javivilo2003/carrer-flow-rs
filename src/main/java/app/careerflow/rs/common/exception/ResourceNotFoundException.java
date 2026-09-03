@@ -1,4 +1,4 @@
-package app.careerflow.rs.common.error;
+package app.careerflow.rs.common.exception;
 
 public class ResourceNotFoundException extends Exception{
 

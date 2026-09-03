@@ -6,7 +6,7 @@ import java.util.stream.StreamSupport;
 
 import org.springframework.stereotype.Service;
 
-import app.careerflow.rs.common.error.ResourceNotFoundException;
+import app.careerflow.rs.common.exception.ResourceNotFoundException;
 import app.careerflow.rs.followup.domain.FollowUp;
 import app.careerflow.rs.followup.dto.FollowUpDTO;
 import app.careerflow.rs.followup.dto.FollowUpRequest;
